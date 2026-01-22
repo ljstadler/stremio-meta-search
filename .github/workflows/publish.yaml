@@ -107,9 +107,17 @@ jobs:
               run: |
                   docker buildx imagetools inspect ghcr.io/${{ github.repository }}:${{ steps.meta.outputs.version }}
 
-            - name: Cleanup
+            - name: Delete tagged packages
               uses: actions/delete-package-versions@v5
               with:
                   package-name: ${{ github.event.repository.name }}
                   package-type: container
                   min-versions-to-keep: 3
+                  ignore-versions: latest
+
+            - name: Delete orphaned packages
+              uses: actions/delete-package-versions@v5
+              with:
+                  package-name: ${{ github.event.repository.name }}
+                  package-type: container
+                  delete-only-untagged-versions: true
