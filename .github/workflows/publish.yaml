@@ -49,7 +49,7 @@ jobs:
                   tags: ghcr.io/${{ github.repository }}
                   outputs: type=image,push-by-digest=true,name-canonical=true,push=true
                   cache-from: type=gha
-                  cache-to: type=gha
+                  cache-to: type=gha,mode=max
 
             - name: Export digest
               run: |
@@ -95,7 +95,6 @@ jobs:
                   images: ghcr.io/${{ github.repository }}
                   tags: |
                       type=raw,value=latest
-                      type=sha,format=long
 
             - name: Create manifest list and push
               working-directory: ${{ runner.temp }}/digests
